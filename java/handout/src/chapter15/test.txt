@@ -1,0 +1,2 @@
+普通字符串
+chapter15.PrintStreamTest@5e2de80c

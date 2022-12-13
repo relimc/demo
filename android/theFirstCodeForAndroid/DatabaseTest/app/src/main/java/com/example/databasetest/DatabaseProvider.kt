@@ -54,7 +54,9 @@ class DatabaseProvider : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        TODO("Implement this to handle query requests from clients.")
+        dbHelper?.let {
+            val db = it.readableDatabase
+        }
     }
 
     override fun update(

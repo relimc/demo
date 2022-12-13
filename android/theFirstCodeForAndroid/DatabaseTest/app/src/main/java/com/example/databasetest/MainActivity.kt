@@ -11,12 +11,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // 创建数据库和表
         val dbHelper = MyDatabaseHelper(this, "BookStore.db", 2)
         val createDatabase: Button = findViewById(R.id.createDatabase)
-        val addData: Button = findViewById(R.id.addData)
         createDatabase.setOnClickListener {
             dbHelper.writableDatabase
         }
+
+        // 向 Book 表新增两条数据
+        val addData: Button = findViewById(R.id.addData)
         addData.setOnClickListener {
             val db = dbHelper.writableDatabase
 //            val value1 = ContentValues().apply {
@@ -46,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             db.insert("Book", null, value2)
         }
 
+        // 更新 Book 表的数据
         val updateData: Button = findViewById(R.id.updateData)
         updateData.setOnClickListener {
             val db = dbHelper.writableDatabase
@@ -54,27 +59,30 @@ class MainActivity : AppCompatActivity() {
             db.update("Book", values, "name = ?", arrayOf("The Da Vinci Code"))
         }
 
+        // 删除 Book 表的数据
         val deleteData: Button = findViewById(R.id.deleteData)
         deleteData.setOnClickListener {
             val db = dbHelper.writableDatabase
             db.delete("Book", "pages > ?", arrayOf("500"))
         }
 
+        // 查询 Book 表的数据
         val queryData: Button = findViewById(R.id.queryData)
         queryData.setOnClickListener {
             val db = dbHelper.writableDatabase
+            // 这里相当于 select * from Book，查询表中的所有数据，返回一个 Cursor 游标对象
             val cursor = db.query("Book", null, null, null, null, null, null)
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToFirst()) {  // 将指针移至第一条数据，若存在第一条数据，返回 true
                 do {
-                    val name = cursor.getString(cursor.getColumnIndex("name"))
-                    val author = cursor.getString(cursor.getColumnIndex("author"))
-                    val pages = cursor.getInt(cursor.getColumnIndex("pages"))
-                    val price = cursor.getDouble(cursor.getColumnIndex("price"))
+                    val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                    val author = cursor.getString(cursor.getColumnIndexOrThrow("author"))
+                    val pages = cursor.getInt(cursor.getColumnIndexOrThrow("pages"))
+                    val price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"))
                     Log.d("MainActivity", "book name is $name")
                     Log.d("MainActivity", "book author is $author")
                     Log.d("MainActivity", "book pages is $pages")
                     Log.d("MainActivity", "book price is $price")
-                } while (cursor.moveToNext())
+                } while (cursor.moveToNext())  // 当还有下一条数据时，继续执行循环
             }
             cursor.close()
         }
@@ -82,21 +90,23 @@ class MainActivity : AppCompatActivity() {
         val replaceData: Button = findViewById(R.id.replaceData)
         replaceData.setOnClickListener {
             val db = dbHelper.writableDatabase
-            db.beginTransaction()
+            db.beginTransaction()  // 开启事务，保证原子操作
             try {
-                db.delete("Book", null, null)
+                db.delete("Book", null, null)  // 删除表中的所有数据
+                // 准备一条数据
                 val values = ContentValues().apply {
                     put("name", "Game of Thrones")
                     put("author", "George Martin")
                     put("pages", 720)
                     put("price", 20.85)
                 }
+                // 向 Book 表中插入一条数据
                 db.insert("Book", null, values)
                 db.setTransactionSuccessful()
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                db.endTransaction()
+                db.endTransaction()  // 结束事务
             }
         }
     }

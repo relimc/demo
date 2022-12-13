@@ -12,7 +12,7 @@ import android.widget.Toast
 // 在这里，MyDatabaseHelper 继承了 SQLiteOpenHelper，并实现了 SQLiteOpenHelper 的两个抽象方法
 // onCreate 方法在 SQLiteOpenHelper 的 getReadableDatabase() 或者 getWritableDatabase() 被调用时执行，其接收一个 SQLiteDatabase 对象作为参数
 // 同时，getReadableDatabase() 或者 getWritableDatabase() 的返回值也是个 SQLiteDatabase 对象
-// SQLiteDatabase 是个管理 SQlite 数据库的工具类，可用于新建数据库表，可用于对数据的增删改查
+// SQLiteDatabase 是个管理 SQLite 数据库的工具类，可用于新建数据库表，可用于对数据的增删改查
 // 在 onCreate 方法中，我们使用 SQLiteDatabase 对象的 execSQL 命令，执行了两行建表命令
 
 // onUpgrade 方法同样会在 SQLiteOpenHelper 的 getReadableDatabase() 或者 getWritableDatabase() 被调用时执行，不过 onUpgrade 方法的执行还受其他条件的约束

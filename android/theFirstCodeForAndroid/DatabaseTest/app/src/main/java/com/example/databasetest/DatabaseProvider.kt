@@ -27,21 +27,49 @@ class DatabaseProvider : ContentProvider() {
         matcher.addURI(authority, "book/#", bookItem)
         matcher.addURI(authority, "category", categoryDir)
         matcher.addURI(authority, "category/#", categoryItem)
+        matcher
     }
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        TODO("Implement this to handle requests to delete one or more rows")
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?) = dbHelper?.let {
+        val db = it.writableDatabase
+        val deletedRows = when (uriMatcher.match(uri)) {
+            bookDir -> db.delete("Book", selection, selectionArgs)
+            bookItem -> {
+                val bookId = uri.pathSegments[1]
+                db.delete("Book", "id = ?", arrayOf(bookId))
+            }
+            categoryDir -> db.delete("Category", selection, selectionArgs)
+            categoryItem -> {
+                val categoryId = uri.pathSegments[1]
+                db.delete("Category", "id = ?", arrayOf(categoryId))
+            }
+            else -> 0
+        }
+        deletedRows
+    } ?: 0
+
+    override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
+        bookDir -> "vnd.android.cursor.dir/vnd.com.example.databasetest.provider.book"
+        bookItem -> "vnd.android.cursor.item/vnd.com.example.databasetest.provider.book"
+        categoryDir -> "vnd.android.cursor.dir/vnd.com.example.databasetest.provider.category"
+        categoryItem -> "vnd.android.cursor.item/vnd.com.example.databasetest.provider.category"
+        else -> null
     }
 
-    override fun getType(uri: Uri): String? {
-        TODO(
-            "Implement this to handle requests for the MIME type of the data" +
-                    "at the given URI"
-        )
-    }
-
-    override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        TODO("Implement this to handle requests to insert a new row.")
+    override fun insert(uri: Uri, values: ContentValues?) = dbHelper?.let {
+            val db = it.writableDatabase
+            val uriReturn = when (uriMatcher.match(uri)) {
+                bookDir, bookItem -> {
+                    val newBookId = db.insert("Book", null, values)
+                    Uri.parse("content://$authority/book/$newBookId")
+                }
+                categoryDir, categoryItem -> {
+                    val newCategoryId = db.insert("Category", null, values)
+                    Uri.parse("content://$authority/category/$newCategoryId")
+                }
+                else -> null
+            }
+            uriReturn
     }
 
     // lambda 表达式的返回值就是 let 函数的返回值
@@ -53,16 +81,46 @@ class DatabaseProvider : ContentProvider() {
     override fun query(
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
-    ): Cursor? {
-        dbHelper?.let {
-            val db = it.readableDatabase
+    ) = dbHelper?.let {
+        val db = it.readableDatabase
+        val cursor = when(uriMatcher.match(uri)) {
+            bookDir -> db.query("Book", projection, selection, selectionArgs, null, null, sortOrder)
+            bookItem -> {
+                val bookId = uri.pathSegments[1]
+                db.query("Book", projection, "id = ?", arrayOf(bookId), null, null, sortOrder)
+            }
+            categoryDir -> db.query("Category", projection, selection, selectionArgs, null, null, sortOrder)
+            categoryItem -> {
+                val categoryId = uri.pathSegments[1]
+                db.query("Category", projection, "id = ?", arrayOf(categoryId), null, null, sortOrder)
+            }
+            else -> null
         }
+        cursor
     }
 
     override fun update(
-        uri: Uri, values: ContentValues?, selection: String?,
-        selectionArgs: Array<String>?
-    ): Int {
-        TODO("Implement this to handle requests to update one or more rows.")
-    }
+        uri: Uri,
+        values: ContentValues?,
+        selection: String?,
+        selectionArgs: Array<out String>?
+    ) = dbHelper?.let {
+        val db = it.writableDatabase
+        val updatedRows = when (uriMatcher.match(uri)) {
+            bookDir -> db.update("Book", values, selection, selectionArgs)
+            bookItem -> {
+                val bookId = uri.pathSegments[1]
+                db.update("Book", values, "id = ?", arrayOf(bookId))
+            }
+            categoryDir -> db.update("Category", values, selection, selectionArgs)
+            categoryItem -> {
+                val categoryId = uri.pathSegments[1]
+                db.update("Category", values, "id = ?", arrayOf(categoryId))
+            }
+            else -> 0
+        }
+        updatedRows
+    } ?: 0
+
+
 }

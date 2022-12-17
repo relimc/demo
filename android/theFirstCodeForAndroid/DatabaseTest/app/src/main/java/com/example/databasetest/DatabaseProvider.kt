@@ -3,8 +3,8 @@ package com.example.databasetest
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.UriMatcher
-import android.database.Cursor
 import android.net.Uri
+import android.util.Log
 
 
 // 内容提供方，可以理解为数据的生产者或者持有者，其为数据的消费者或者使用者提供内容
@@ -58,6 +58,7 @@ class DatabaseProvider : ContentProvider() {
 
     override fun insert(uri: Uri, values: ContentValues?) = dbHelper?.let {
             val db = it.writableDatabase
+            Log.d("DatabaseProvider", "insert")
             val uriReturn = when (uriMatcher.match(uri)) {
                 bookDir, bookItem -> {
                     val newBookId = db.insert("Book", null, values)
@@ -74,6 +75,7 @@ class DatabaseProvider : ContentProvider() {
 
     // lambda 表达式的返回值就是 let 函数的返回值
     override fun onCreate() = context?.let {
+        Log.d("DatabaseProvider", "onCreate")
         dbHelper = MyDatabaseHelper(it, "BookStore.db", 2)  // 创建数据库
         true  // lambda 表达式的最后一行
     } ?: false
@@ -121,6 +123,4 @@ class DatabaseProvider : ContentProvider() {
         }
         updatedRows
     } ?: 0
-
-
 }

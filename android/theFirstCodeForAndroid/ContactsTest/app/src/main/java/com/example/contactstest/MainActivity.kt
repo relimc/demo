@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
     private fun readContacts() {
         contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null)?.apply {
             while (moveToNext()) {
-                val displayName = getString(getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-                val number = getString(getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                val displayName = getString(getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+                val number = getString(getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
                 contactsList.add("$displayName\n$number")
             }
             adapter.notifyDataSetChanged()

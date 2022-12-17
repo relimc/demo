@@ -12,7 +12,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 创建数据库和表
+        // 实例化一个 SQLiteOpenHelper 对象，这一行代码执行完毕后，并不会创建 BookStore.db 数据库文件
+        // 当执行该对象的 getWritableDatabase 或者 getReadableDatabase 方法时，才会创建数据库文件
         val dbHelper = MyDatabaseHelper(this, "BookStore.db", 2)
         val createDatabase: Button = findViewById(R.id.createDatabase)
         createDatabase.setOnClickListener {

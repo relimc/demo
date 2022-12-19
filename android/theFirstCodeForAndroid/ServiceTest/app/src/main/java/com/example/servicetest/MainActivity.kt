@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
@@ -49,6 +50,13 @@ class MainActivity : AppCompatActivity() {
         val unbindServiceBtn = findViewById<Button>(R.id.unbindServiceBtn)
         unbindServiceBtn.setOnClickListener {
             unbindService(connection)
+        }
+
+        val startIntentServiceBtn = findViewById<Button>(R.id.startIntentServiceBtn)
+        startIntentServiceBtn.setOnClickListener {
+            Log.d("MainActivity", "Thread id is ${Thread.currentThread().name}")
+            val intent = Intent(this, MyIntentService::class.java)
+            startService(intent)
         }
     }
 }

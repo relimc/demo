@@ -15,13 +15,17 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true)
     )
-    private var currentIndex = 0
-    var isCheater = false
+    var currentIndex = 0
 
     val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer
     val currentQuestionText: Int
         get() = questionBank[currentIndex].textResId
+    var currentQuestionIsCheated: Boolean
+        get() = questionBank[currentIndex].isCheated
+        set(isCheated) {
+            questionBank[currentIndex].isCheated = isCheated
+        }
 
     fun moveToNext() {
         currentIndex += 1
@@ -32,12 +36,6 @@ class QuizViewModel : ViewModel() {
     }
 
     fun getQuestionSize() = questionBank.size
-
-    fun getCurrentIndex() = currentIndex
-
-    fun setCurrentIndex(index: Int) {
-        currentIndex = index
-    }
 
     init {
         Log.d(TAG, "ViewModel instantce created")

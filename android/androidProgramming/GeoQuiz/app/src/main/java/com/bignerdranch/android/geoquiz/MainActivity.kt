@@ -1,7 +1,9 @@
 package com.bignerdranch.android.geoquiz
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -26,10 +29,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cheatButton: Button
     private lateinit var questionTextView: TextView
     private lateinit var scoreTextView: TextView
+    private lateinit var cheatTimeLeft: TextView
     private val quizViewModel: QuizViewModel by lazy {
         ViewModelProvider(this).get(QuizViewModel::class.java)
     }
     private var count = 0
+    private var cheatTimes = 0
 
     /*
     private val questionBank = listOf(
@@ -43,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private var currentIndex = 0
      */
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         val provider = ViewModelProvider(this)
         val quizViewModel = provider.get(QuizViewModel::class.java)
-        quizViewModel.setCurrentIndex(currentIndex)
+        quizViewModel.currentIndex = currentIndex
         Log.d(TAG, "Got a QuizViewModel:$quizViewModel")
 
         scoreTextView = findViewById(R.id.score)
@@ -70,25 +76,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         questionTextView = findViewById(R.id.question_text_view)
-        upateQuestion()
+        updateQuestion()
         questionTextView.setOnClickListener {
             // currentIndex = (currentIndex + 1) % questionBank.size
             // questionTextView.setText(questionBank[currentIndex].textResId)
             quizViewModel.moveToNext()
-            upateQuestion()
+            updateQuestion()
         }
 
         nextButton = findViewById(R.id.next_button)
         nextButton.setOnClickListener {
              quizViewModel.moveToNext()
-            if (quizViewModel.getCurrentIndex() == quizViewModel.getQuestionSize()) {
+            if (quizViewModel.currentIndex == quizViewModel.getQuestionSize()) {
                 Toast.makeText(this, "This is already the last question!", Toast.LENGTH_SHORT).show()
                 scoreTextView.visibility = View.VISIBLE
                 scoreTextView.text = "Your score is $count"
-                quizViewModel.setCurrentIndex(quizViewModel.getQuestionSize() - 1)
+                quizViewModel.currentIndex = quizViewModel.getQuestionSize() - 1
             } else {
                 // questionTextView.setText(questionBank[currentIndex].textResId)
-                upateQuestion()
+                updateQuestion()
                 trueButton.isEnabled = true
                 falseButton.isEnabled = true
             }
@@ -96,37 +102,45 @@ class MainActivity : AppCompatActivity() {
 
         cheatButton = findViewById(R.id.cheat_button)
         cheatButton.setOnClickListener {
-            val intent = CheatActivity.newIntent(this, quizViewModel.currentQuestionAnswer)
+            val intent = CheatActivity.newIntent(this, quizViewModel.currentQuestionAnswer, cheatTimes)
             // startActivity(intent)
-            startActivityForResult(intent, REQUEST_CODE_CHEAT)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val options = ActivityOptions.makeClipRevealAnimation(it, 0, 0, it.width, it.height)
+                startActivityForResult(intent, REQUEST_CODE_CHEAT, options.toBundle())
+            } else {
+                startActivityForResult(intent, REQUEST_CODE_CHEAT)
+            }
         }
+
+        cheatTimeLeft = findViewById(R.id.cheat_time_left)
 
         prevButton = findViewById(R.id.prev_button)
         prevButton.setOnClickListener {
             quizViewModel.moveToLast()
-            if (quizViewModel.getCurrentIndex() < 0) {
+            if (quizViewModel.currentIndex < 0) {
                 Toast.makeText(this, "This is already the first question!", Toast.LENGTH_SHORT).show()
-                quizViewModel.setCurrentIndex(0)
+                quizViewModel.currentIndex = 0
             } else {
                 // questionTextView.setText(questionBank[currentIndex].textResId)
-                upateQuestion()
+                updateQuestion()
                 trueButton.isEnabled = true
                 falseButton.isEnabled = true
             }
         }
     }
 
-    private fun upateQuestion() {
+    private fun updateQuestion() {
         // Log.d(TAG, "Updating question text", Exception())
         val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
-         val correctAnswer: Boolean = quizViewModel.currentQuestionAnswer
+        val correctAnswer: Boolean = quizViewModel.currentQuestionAnswer
+        val isCheater = quizViewModel.currentQuestionIsCheated
 
         val messageResId = when {
-            quizViewModel.isCheater -> R.string.judgment_toast
+            isCheater -> R.string.judgment_toast
             userAnswer == correctAnswer -> R.string.correct_toast
             else -> R.string.incorrect_toast
         }
@@ -148,7 +162,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d(TAG, "onSaveInstanceState")
-        outState.putInt(KEY_INDEX, quizViewModel.getCurrentIndex())
+        outState.putInt(KEY_INDEX, quizViewModel.currentIndex)
     }
 
     // requestCode 就是 startActivityForResult(intent, REQUEST_CODE_CHEAT) 中的 REQUEST_CODE_CHEAT
@@ -165,13 +179,18 @@ class MainActivity : AppCompatActivity() {
             return
         }
         if (requestCode == REQUEST_CODE_CHEAT) {
-            quizViewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
-            Log.d(TAG, quizViewModel.isCheater.toString())
+            quizViewModel.currentQuestionIsCheated = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+            cheatTimes = data?.getIntExtra("cheatTimes", 0) ?: 0
+            Log.d(TAG, quizViewModel.currentQuestionIsCheated.toString())
         }
     }
 
     override fun onStart() {
         super.onStart()
+        cheatTimeLeft.text = "You have ${(3 - cheatTimes)} times to cheat!"
+        if (cheatTimes == 3) {
+            cheatButton.isEnabled = false
+        }
         Log.d(TAG, "onStart called")
     }
 

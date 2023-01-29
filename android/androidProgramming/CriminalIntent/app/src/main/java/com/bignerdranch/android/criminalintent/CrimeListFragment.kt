@@ -40,8 +40,11 @@ class CrimeListFragment : Fragment() {
         // Log.d(TAG, "Total crimes: ${crimeListViewModel.crimes.size}")
     }
 
+    // 当 Activity 和 Fragment 发生关联时调用，会将 Activity 当作参数传递给 onAttach 方法
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        // 拿到 Activity 后，将其强制转换为 Callbacks 对象，并保存在 callbacks 属性中
+        // 要让 Activity 可以转为 Callbacks 对象而不报类型转换异常的错误，Activity 必须实现这个接口
         callbacks = context as Callbacks?
     }
 
@@ -93,6 +96,7 @@ class CrimeListFragment : Fragment() {
 
         override fun onClick(v: View?) {
             Toast.makeText(context, "${crime.title} pressed!", Toast.LENGTH_SHORT).show()
+            // 这里调用 MainActivity 实现 Callbacks 接口的 onCrimeSelected 方法
             callbacks?.onCrimeSelected(crime.id)
         }
 

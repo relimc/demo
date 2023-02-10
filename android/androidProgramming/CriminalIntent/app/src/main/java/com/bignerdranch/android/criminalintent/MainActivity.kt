@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
         if (currentFragment == null) {
             val fragment = CrimeListFragment.newInstance()
             // getSupportFragmentManager 方法获取 FragmentManager 类对象，这个对象用于管理 fragment 队列和 fragment 事务回退栈
-            // 有了这个对象，我们就能够创建管理 fragment 的事务，开启事务是调用该对象的 beginTransaction 方法
+            // 有了这个对象，我们就能够创建管理 fragment 的事务，调用该对象的 beginTransaction 方法即可开启事务
             // beginTransaction 方法会返回一个 FragmentTransaction 对象
             // 通过这个事务对象，我们便能在 Activity 中添加、移除、附加、分离或者替换 fragment 队列中的 fragment
             // add 方法用于在当前 Activity 中添加一个 fragment 对象，其第一个参数是个资源 ID，其作用如下：

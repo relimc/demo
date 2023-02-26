@@ -18,6 +18,9 @@ class CrimeRepository private constructor(context: Context){
     ).build()
 
     private val crimeDao = database.crimeDao()
+
+    // newSingleThreadExecutor()函数会返回一个指向新线程的executor实例
+    // 使用这个executor实例执行的工作都会发生在它指向的后台进程上。
     private val executor = Executors.newSingleThreadExecutor()
 
     // fun getCrimes(): List<Crime> = crimeDao.getCrimes()
@@ -26,6 +29,8 @@ class CrimeRepository private constructor(context: Context){
     // fun getCrime(id: UUID): Crime? = crimeDao.getCrime(id)
     fun getCrime(id: UUID): LiveData<Crime?> = crimeDao.getCrime(id)
 
+    // updateCrime()和addCrime()函数都封装在execute {}代码块
+    // 这可以保证它们在后台线程上执行，不会阻塞你的UI刷新。
     fun updateCrime(crime: Crime) {
         executor.execute {
             crimeDao.updateCrime(crime)

@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
 
     override fun onCrimeSelected(crimeId: UUID) {
         Log.d(TAG, "MainActivity.onCrimeSelected: $crimeId")
+
+        // 在创建 fragment 对象时，顺便给该对象携带参数，在这里携带的参数就是 crimeId
+        // 有个这个 id 我们就能够打开指定的 Crime
         val fragment = CrimeFragment.newInstance(crimeId)
         supportFragmentManager
             .beginTransaction()

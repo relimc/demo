@@ -114,7 +114,8 @@ class CrimeFragment : Fragment() {
         }
 
         dateButton.setOnClickListener {
-            DatePickerFragment().apply {
+            //DatePickerFragment().apply {
+            DatePickerFragment.newInstance(crime.date).apply {
                 // show 方法用于展示日期选择对话框，第一个参数是个 FragmentManager 对象
                 // 第二个参数是 String 对象，String参数可唯一识别FragmentManager队列中的DialogFragment。
                 // show(manager: FragmentManager, tag: String)

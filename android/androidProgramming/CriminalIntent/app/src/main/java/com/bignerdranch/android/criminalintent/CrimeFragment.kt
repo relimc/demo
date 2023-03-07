@@ -15,13 +15,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import java.util.UUID
+import java.util.*
 
 private const val TAG = "CrimeFragment"
 private const val ARG_CRIME_ID = "crime_id"
 private const val DIALOG_DATE = "DialogDate"
+private const val REQUEST_DATE = 0
 
-class CrimeFragment : Fragment() {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
@@ -116,6 +117,7 @@ class CrimeFragment : Fragment() {
         dateButton.setOnClickListener {
             //DatePickerFragment().apply {
             DatePickerFragment.newInstance(crime.date).apply {
+                setTargetFragment(this@CrimeFragment, REQUEST_DATE)
                 // show 方法用于展示日期选择对话框，第一个参数是个 FragmentManager 对象
                 // 第二个参数是 String 对象，String参数可唯一识别FragmentManager队列中的DialogFragment。
                 // show(manager: FragmentManager, tag: String)
@@ -186,6 +188,11 @@ class CrimeFragment : Fragment() {
             isChecked = crime.isSolved
             jumpDrawablesToCurrentState()
         }
+    }
+
+    override fun onDateSelected(date: Date) {
+        crime.date = date
+        updateUI()
     }
 
 }

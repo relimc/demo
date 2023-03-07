@@ -3,15 +3,30 @@ package com.bignerdranch.android.criminalintent
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.telecom.Call
+import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import java.util.Calendar
 import java.util.Date
+import java.util.GregorianCalendar
 
 private const val ARG_DATE = "date"
 
 class DatePickerFragment: DialogFragment() {
 
+    interface Callbacks {
+        fun onDateSelected(date: Date)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        val dateListener = DatePickerDialog.OnDateSetListener {_: DatePicker, year: Int, month: Int, day: Int ->
+            val resultDate: Date = GregorianCalendar(year, month, day).time
+            targetFragment?.let {
+                (it as Callbacks).onDateSelected(resultDate)
+            }
+        }
+
         val date = arguments?.getSerializable(ARG_DATE) as Date
         val calendar = Calendar.getInstance()
         calendar.time = date
@@ -21,7 +36,8 @@ class DatePickerFragment: DialogFragment() {
 
         return DatePickerDialog(
             requireContext(),
-            null,
+            // null,
+            dateListener,
             initialYear,
             initialMonth,
             initialDay

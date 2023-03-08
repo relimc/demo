@@ -117,6 +117,8 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
         dateButton.setOnClickListener {
             //DatePickerFragment().apply {
             DatePickerFragment.newInstance(crime.date).apply {
+                // 将 CrimeFragment 设置为 DatePickerFragment 的目标 Fragment
+                // 两者关联后，在CrimeFragment和DatePickerFragment被销毁并重建时，操作系统会重新关联它们。
                 setTargetFragment(this@CrimeFragment, REQUEST_DATE)
                 // show 方法用于展示日期选择对话框，第一个参数是个 FragmentManager 对象
                 // 第二个参数是 String 对象，String参数可唯一识别FragmentManager队列中的DialogFragment。
@@ -190,6 +192,8 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
         }
     }
 
+    // 当用户在日期对话框选择指定日期后，会触发这个方法，这个方法会将选择的日期作为参数，这就是新的日期，
+    // 有个新的日期数据，就能在 CrimeFragment 刷新 UI 视图了
     override fun onDateSelected(date: Date) {
         crime.date = date
         updateUI()

@@ -3,9 +3,7 @@ package com.bignerdranch.android.criminalintent
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -38,6 +36,7 @@ class CrimeListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Log.d(TAG, "Total crimes: ${crimeListViewModel.crimes.size}")
+        setHasOptionsMenu(true)
     }
 
     // 当 Activity 和 Fragment 发生关联时调用，会将 Activity 当作参数传递给 onAttach 方法
@@ -123,6 +122,26 @@ class CrimeListFragment : Fragment() {
 
         override fun getItemCount() = crimes.size
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_crime_list, menu)
+    }
+
+    // 当我们选择菜单的某个子项时，会触发这个方法
+    // 子项会作为参数传递到这个方法的内部，在方法的内部，我们可以根据这个子项，采取相应的处理措施
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_crime -> {  // 当选择新建 Crime 子项时
+                val crime = Crime()  // 创建一个 Crime 对象
+                crimeListViewModel.addCrime(crime)  // 该对象，将作为一条新的数据，被插入本地数据库
+                // 新建一个 CrimeFragment 来编写 Crime 对象具体携带的信息
+                callbacks?.onCrimeSelected(crime.id)
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     companion object {

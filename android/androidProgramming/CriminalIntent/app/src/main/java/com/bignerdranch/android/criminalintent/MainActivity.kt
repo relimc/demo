@@ -12,9 +12,12 @@ class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Log.d(TAG, "onCreate")
+
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         if (currentFragment == null) {
             val fragment = CrimeListFragment.newInstance()
+            Log.d(TAG, "currentFragment is null")
             // getSupportFragmentManager 方法获取 FragmentManager 类对象，这个对象用于管理 fragment 队列和 fragment 事务回退栈
             // 有了这个对象，我们就能够创建管理 fragment 的事务，调用该对象的 beginTransaction 方法即可开启事务
             // beginTransaction 方法会返回一个 FragmentTransaction 对象
@@ -32,6 +35,36 @@ class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
                 .add(R.id.fragment_container, fragment)
                 .commit()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
     }
 
     override fun onCrimeSelected(crimeId: UUID) {

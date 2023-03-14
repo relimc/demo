@@ -1,5 +1,6 @@
 package com.bignerdranch.android.criminalintent
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -36,7 +37,9 @@ class CrimeListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Log.d(TAG, "Total crimes: ${crimeListViewModel.crimes.size}")
-        setHasOptionsMenu(true)
+        Log.d(TAG, "onCreate")
+        // 通知 FragmentManager 当前的 Fragment 需要创建菜单，有了这个方法
+        setHasOptionsMenu(true)  // onCreateOptionsMenu 方法才会被调用
     }
 
     // 当 Activity 和 Fragment 发生关联时调用，会将 Activity 当作参数传递给 onAttach 方法
@@ -44,12 +47,19 @@ class CrimeListFragment : Fragment() {
         super.onAttach(context)
         // 拿到 Activity 后，将其强制转换为 Callbacks 对象，并保存在 callbacks 属性中
         // 要让 Activity 可以转为 Callbacks 对象而不报类型转换异常的错误，Activity 必须实现这个接口
+        Log.d(TAG, "onAttach")
         callbacks = context as Callbacks?
     }
 
     override fun onDetach() {
         super.onDetach()
+        Log.d(TAG, "onDetach")
         callbacks = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
     }
 
     override fun onCreateView(
@@ -57,6 +67,7 @@ class CrimeListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
         val view = inflater.inflate(R.layout.fragment_crime_list, container, false)
         crimeRecyclerView = view.findViewById(R.id.crime_recycler_view) as RecyclerView
         crimeRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -67,12 +78,28 @@ class CrimeListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
         crimeListViewModel.crimeListLiveData.observe(viewLifecycleOwner) {
             it?.let {
                 Log.i(TAG, "Got crimes ${it.size}")
                 updateUI(it)
             }
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.d(TAG, "onActivityCreated")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume")
     }
 
     private fun updateUI(crimes: List<Crime>) {

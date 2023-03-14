@@ -1,11 +1,12 @@
 package com.example.asynctasktest;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
-
+    private final static String TAG = "MyAsyncTask";
     private TextView txt;
     private ProgressBar pgbar;
 
@@ -38,5 +39,11 @@ public class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
     protected void onProgressUpdate(Integer... values) {
         int value = values[0];
         pgbar.setProgress(value);
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        Log.d(TAG, s);
     }
 }

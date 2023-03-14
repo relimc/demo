@@ -78,7 +78,11 @@ class CrimeListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+<<<<<<< HEAD
         Log.d(TAG, "onViewCreated")
+=======
+        // 从数据中拿数据
+>>>>>>> c364867ce112c7d0e59fa4c7fecb807628bcebc1
         crimeListViewModel.crimeListLiveData.observe(viewLifecycleOwner) {
             it?.let {
                 Log.i(TAG, "Got crimes ${it.size}")
@@ -159,11 +163,12 @@ class CrimeListFragment : Fragment() {
     // 当我们选择菜单的某个子项时，会触发这个方法
     // 子项会作为参数传递到这个方法的内部，在方法的内部，我们可以根据这个子项，采取相应的处理措施
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d(TAG, "onOptionsItemSelected")
         return when (item.itemId) {
             R.id.new_crime -> {  // 当选择新建 Crime 子项时
                 val crime = Crime()  // 创建一个 Crime 对象
                 crimeListViewModel.addCrime(crime)  // 该对象，将作为一条新的数据，被插入本地数据库
-                // 新建一个 CrimeFragment 来编写 Crime 对象具体携带的信息
+                // 点击新建Crime子项时，会打开一个新的页面，这个页面是一个 fragment
                 callbacks?.onCrimeSelected(crime.id)
                 true
             }

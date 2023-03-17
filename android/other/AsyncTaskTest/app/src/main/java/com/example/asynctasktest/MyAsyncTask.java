@@ -5,6 +5,8 @@ import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Arrays;
+
 public class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
     private final static String TAG = "MyAsyncTask";
     private TextView txt;
@@ -20,6 +22,7 @@ public class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
     //触发onProgressUpdate对UI进行操作
     @Override
     protected String doInBackground(Integer... params) {
+        Log.d(TAG, Arrays.toString(params));
         DelayOperator dop = new DelayOperator();
         int i = 0;
         for (i = 10; i <= 100; i += 10) {

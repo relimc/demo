@@ -44,4 +44,8 @@ class MyDatabaseHelper(val contenxt: Context, name: String, version: Int): SQLit
         onCreate(db)
     }
 
+    override fun onDowngrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        super.onDowngrade(db, oldVersion, newVersion)
+    }
+
 }

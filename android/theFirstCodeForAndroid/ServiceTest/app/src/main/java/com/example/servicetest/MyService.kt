@@ -32,6 +32,7 @@ class MyService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder {
+        Log.d("MyService", "onBind executed")
         return mBinder
     }
 

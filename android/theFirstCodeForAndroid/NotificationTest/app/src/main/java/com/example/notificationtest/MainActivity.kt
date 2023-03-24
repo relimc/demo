@@ -20,18 +20,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel("normal", "Normal", NotificationManager.IMPORTANCE_DEFAULT)
-            val channel2 = NotificationChannel("important", "Important", NotificationManager.IMPORTANCE_HIGH)
-            manager.createNotificationChannel(channel)
-            manager.createNotificationChannel(channel2)
-        }
+        val channel = NotificationChannel("normal", "Normal", NotificationManager.IMPORTANCE_DEFAULT)
+        val channel2 = NotificationChannel("important", "Important", NotificationManager.IMPORTANCE_HIGH)
+        manager.createNotificationChannel(channel)
+        manager.createNotificationChannel(channel2)
         findViewById<Button>(R.id.sendNotice).setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
-            val flags = when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
-                else -> FLAG_UPDATE_CURRENT
-            }
+            val flags = FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
             val pi = PendingIntent.getActivity(this, 0, intent, flags)
             val notification = NotificationCompat.Builder(this, "important")
                 .setContentTitle("This is content title")

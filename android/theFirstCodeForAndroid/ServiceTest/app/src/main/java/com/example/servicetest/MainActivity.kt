@@ -16,13 +16,14 @@ class MainActivity : AppCompatActivity() {
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.d("onServiceConnected", name.toString())
             donwloadBinder = service as MyService.DownloadBinder
             donwloadBinder.startDownload()
             donwloadBinder.getProgress()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
+            Log.d("onServiceDisconnected", name.toString())
         }
     }
 

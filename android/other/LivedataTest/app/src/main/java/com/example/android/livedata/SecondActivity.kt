@@ -29,10 +29,7 @@ class SecondActivity : AppCompatActivity() {
 //            binding.mTvShow.text = "姓名：${it.name} \n薪水：${it.salary}"
 //        })
 
-        binding.mBtnData.setOnClickListener {
-            Log.d(TAG, "mBtnData")
-            secondViewModel.getUserInfo()
-        }
+
 
 //        Transformations.map(secondViewModel.userData) {
 //            it?.name = "张三"
@@ -41,11 +38,21 @@ class SecondActivity : AppCompatActivity() {
 //            binding.mTvShow.text = "姓名：${it.name} \n薪水：${it.salary}"
 //        })
 
-        Transformations.switchMap(secondViewModel.userData) {
-            secondViewModel.getUserName(it)
-        }.observe(this) {
-            binding.mTvShow.text = "姓名：${it.name} \n薪水：${it.salary}"
+
+        val liveData = Transformations.switchMap(secondViewModel.userData) {
+            val source = secondViewModel.getUserName(it)
+            Log.d(TAG, "6$source")
+            source
         }
 
+        liveData.observe(this) {
+            binding.mTvShow.text = "姓名：${it.name} \n薪水：${it.salary}"
+            Log.d(TAG, "66$liveData")
+        }
+
+        binding.mBtnData.setOnClickListener {
+            Log.d(TAG, "mBtnData")
+            secondViewModel.getUserInfo()
+        }
     }
 }

@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +40,7 @@ class PlaceFragment: Fragment() {
         searchPlaceEdit?.addTextChangedListener {
             val content = it.toString()
             if (content.isNotEmpty()) {
-                viewModel.serachPlaces(content)
+                viewModel.searchPlaces(content)
             } else {
                 recyclerView?.visibility = View.GONE
                 bgImageView?.visibility = View.VISIBLE

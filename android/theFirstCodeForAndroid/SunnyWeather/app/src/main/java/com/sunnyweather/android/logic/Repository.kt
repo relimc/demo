@@ -2,6 +2,7 @@ package com.sunnyweather.android.logic
 
 import android.util.Log
 import androidx.lifecycle.liveData
+import com.sunnyweather.android.logic.dao.PlaceDao
 import com.sunnyweather.android.logic.model.Place
 import com.sunnyweather.android.logic.model.PlaceResponse
 import com.sunnyweather.android.logic.model.Weather
@@ -46,18 +47,18 @@ object Repository {
 
     fun refreshWeather(lng: String, lat: String) = fire(Dispatchers.IO) {
         coroutineScope {
-            val deferredRealtime = async {
-                Log.d(TAG, "realtime: lng is $lng, lat is $lat")
-                SunnyWeatherNetwork.getRealtimeWeather(lng, lat)
-            }
             val deferredDaily = async {
                 Log.d(TAG, "daily: lng is $lng, lat is $lat")
                 SunnyWeatherNetwork.getDailyWeather(lng, lat)
             }
-            val realtimeResponse = deferredRealtime.await()
+            val deferredRealtime = async {
+                Log.d(TAG, "realtime: lng is $lng, lat is $lat")
+                SunnyWeatherNetwork.getRealtimeWeather(lng, lat)
+            }
+
             val dailyResponse = deferredDaily.await()
-            Log.d(TAG, "realtimeResponse$realtimeResponse")
-            Log.d(TAG, "dailyResponse$dailyResponse")
+            val realtimeResponse = deferredRealtime.await()
+
             if (realtimeResponse.status == "ok" && dailyResponse.status == "ok") {
                 val weather = Weather(realtimeResponse.result.realtime, dailyResponse.result.daily)
                 Result.success(weather)
@@ -68,6 +69,10 @@ object Repository {
             }
         }
     }
+
+    fun savePlace(place: Place) = PlaceDao.savePlace(place)
+    fun getSavedPlace() = PlaceDao.getSavedPlace()
+    fun isPlaceSaved() = PlaceDao.isPlaceSaved()
 
     /*
     fun refreshWeather(lng: String, lat: String) = liveData(Dispatchers.IO) {

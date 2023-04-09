@@ -3,6 +3,7 @@ package com.sunnyweather.android.logic.model
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
+
 data class DailyResponse(val status: String, val result: Result) {
     data class Result(val daily: Daily)
 
@@ -16,3 +17,4 @@ data class DailyResponse(val status: String, val result: Result) {
 
     data class LifeDescription(val desc: String)
 }
+

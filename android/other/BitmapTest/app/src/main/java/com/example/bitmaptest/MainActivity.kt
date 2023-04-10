@@ -10,7 +10,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val bitmap = BitmapFactory.decodeFile("C:\\Users\\Administrator\\Pictures\\avatar.png")
-        findViewById<ImageView>(R.id.iv).setImageBitmap(bitmap)
+        val path = "C:\\Users\\liuji\\Pictures\\微信截图_20230405142320.png"
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(path, options)
+
+        val picWidth = options.outWidth
+        val picHeight = options.outHeight
     }
 }

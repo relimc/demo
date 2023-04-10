@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">IntentTest</string>
+
+    <string name="action_view">打开浏览器浏览网页</string>
+    <string name="action_dial">打开拨号对话框</string>
+    <string name="action_call">直接拨打电话</string>
+    <string name="action_pick_contact">获取联系人信息</string>
+    <string name="action_pick_image">选择图片</string>
+    <string name="action_get_content">选择文件</string>
+
+
+</resources>

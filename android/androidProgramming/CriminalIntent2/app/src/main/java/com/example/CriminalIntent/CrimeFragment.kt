@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
@@ -21,6 +22,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -149,6 +151,7 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
         return getString(R.string.crime_report, crime.title, dateString, solvedString, suspect)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onStart() {
         super.onStart()
         val titleWatcher = object : TextWatcher {
@@ -198,21 +201,23 @@ class CrimeFragment: Fragment(), DatePickerFragment.Callbacks {
             }
 
             val packageManager: PackageManager = requireActivity().packageManager
-            val resolvedActivity: ResolveInfo? = packageManager.resolveActivity(pickContactIntent, PackageManager.MATCH_DEFAULT_ONLY)
+            val resolvedActivity: ResolveInfo? = packageManager.resolveActivity(pickContactIntent, PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY.toLong()))
             if (resolvedActivity == null) isEnabled = false
         }
 
         photoButton.apply {
             val packageManager: PackageManager = requireActivity().packageManager
             val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val resolvedActivity: ResolveInfo? = packageManager.resolveActivity(captureImage, PackageManager.MATCH_DEFAULT_ONLY)
+            val resolvedActivity: ResolveInfo? = packageManager.resolveActivity(captureImage, PackageManager.ResolveInfoFlags.of(
+                PackageManager.MATCH_DEFAULT_ONLY.toLong()
+            ))
             if (resolvedActivity == null) isEnabled = false
 
             setOnClickListener {
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                val cameraActivities: List<ResolveInfo> = packageManager.queryIntentActivities(captureImage, PackageManager.MATCH_DEFAULT_ONLY)
+                val cameraActivities: List<ResolveInfo> = packageManager.queryIntentActivities(captureImage, PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY.toLong()))
                 for (cameraActivity in cameraActivities) {
-                    requireActivity().grantUriPermission(
+                    requireActivity().grantUriPermission(  // 授予相机对 photoUri 中的文件读写的权限
                         cameraActivity.activityInfo.packageName,
                         photoUri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION

@@ -9,6 +9,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.tv.text = "666"
+        binding.bookViewModel?.book = Book("kotlin book", 100, "lee")
+        binding.changeNameBtn.setOnClickListener {
+            binding.bookViewModel?.book = Book("kotlin book 2", 100, "lee")
+        }
     }
 }

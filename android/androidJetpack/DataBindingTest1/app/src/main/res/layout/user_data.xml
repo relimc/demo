@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="user"
+            type="com.example.databindingtest1.User" />
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{user.userName}" />
+        <TextView
+            android:id="@+id/tv_user_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{user.userId}" />
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:imgUrl="@{user.userPhoto}" />
+    </LinearLayout>
+</layout>

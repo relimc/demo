@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
+
+    <declare-styleable name="title_bar_layout_style">
+        <!-- 背景颜色 -->
+        <attr name="background_color" format="color" />
+        <!-- 字体颜色 -->
+        <attr name="title_color" format="color" />
+        <!-- 文本 -->
+        <attr name="title_text" format="string" />
+        <!-- 文字大小 -->
+        <attr name="title_size" format="dimension" />
+<!--        <attr name="title_size" format="integer" />-->
+    </declare-styleable>
+
+</resources>

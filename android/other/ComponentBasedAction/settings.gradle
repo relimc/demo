@@ -1,0 +1,13 @@
+include ':component_notification'
+include ':module_pay'
+include ':component_lib'
+include ':component_network'
+include ':component_image'
+include ':module_main'
+include ':module_login'
+include ':module_mine'
+include ':module_message'
+include ':module_home'
+include ':module_base'
+include ':app'
+rootProject.name = "ComponentBasedAction"

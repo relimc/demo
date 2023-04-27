@@ -1,0 +1,5 @@
+<resources>
+    <string name="template_app_name">TemplateComponent</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="template_hello_blank_fragment">支付功能需要先进行登录</string>
+</resources>

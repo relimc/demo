@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.HomeFragment">
+
+    <TextView
+        android:id="@+id/home_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="首页"
+        android:textColor="#e3e3e3"
+        android:textSize="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_goto_login"
+                style="@style/Home_Item_Btn"
+                android:layout_marginTop="20dp"
+                android:text="标准的路由请求，跳转到登录到组件" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_to_main_other_fragment"
+                style="@style/Home_Item_Btn"
+                android:text="跳转MainActivity中的另一个Fragment" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_intent"
+                style="@style/Home_Item_Btn"
+                android:layout_marginTop="20dp"
+                android:text="隐式 Intent 的方式跳转组件" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_get_dialog"
+                style="@style/Home_Item_Btn"
+                android:text="获取其它模块 Dialog" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_eventbus"
+                style="@style/Home_Item_Btn"
+                android:text="使用eventBus夸模块通信(getIntent()接收数据)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_uri"
+                style="@style/Home_Item_Btn"
+                android:text="使用Uri应用内跳转" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_bundle"
+                style="@style/Home_Item_Btn"
+                android:text="通过Bundle传递参数" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_pay"
+                style="@style/Home_Item_Btn"
+                android:text="跳转到支付模块" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/oldVersionAnim"
+                style="@style/Home_Item_Btn"
+                android:text="旧版本转场动画" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/newVersionAnim"
+                style="@style/Home_Item_Btn"
+                android:text="新版本转场动画" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_for_result"
+                style="@style/Home_Item_Btn"
+                android:text="路由请求，startActivityForResult" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/interceptor"
+                style="@style/Home_Item_Btn"
+                android:text="拦截器操作(利用重新分组拦截)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/interceptor1"
+                style="@style/Home_Item_Btn"
+                android:text="拦截器操作(利用原有分组)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/interceptor2"
+                style="@style/Home_Item_Btn"
+                android:text="拦截器操作(绿色通道，跳过拦截器)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/autoInject"
+                style="@style/Home_Item_Btn"
+                android:text="依赖注入" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_use_other_module"
+                style="@style/Home_Item_Btn"
+                android:text="模块间服务调用" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_use_other_module_by_name"
+                style="@style/Home_Item_Btn"
+                android:text="模块间通过路径名称调用服务" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_use_other_module_by_type"
+                style="@style/Home_Item_Btn"
+                android:text="模块间通过类名调用服务" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/failNav"
+                style="@style/Home_Item_Btn"
+                android:layout_marginBottom="20dp"
+                android:text="跳转失败" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

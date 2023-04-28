@@ -12,7 +12,7 @@ public class MainApplication extends BaseApplication {
 
     @Override
     protected void initComponentSpecificService() {
-        Logger.dl("method:initComponetSpecificService#单独编译时，初始化当前组件特有的业务");
+        Logger.dl("method:initComponentSpecificService#单独编译时，初始化当前组件特有的业务");
     }
 
     @Override

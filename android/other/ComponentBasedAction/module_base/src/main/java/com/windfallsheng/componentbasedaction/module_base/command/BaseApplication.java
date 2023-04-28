@@ -76,7 +76,7 @@ public abstract class BaseApplication extends MultiDexApplication {
         // 首先注册具体实例；
         registeApplicationHelper();
         // 调用各实例的初始化方法
-        mApplicationHelperList.stream()
+        mApplicationHelperList
                 .forEach(applicationHelper -> {
                     Logger.d("method:handlelAllApplicationHelpersCreate#applicationHelper=" +
                             applicationHelper.getClass().getSimpleName());

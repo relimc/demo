@@ -1,0 +1,37 @@
+ext {
+    isDebug = false
+    android = [
+            compileSdk: 33,
+            minSdk: 24,
+            targetSdk: 33,
+            versionCode: 1,
+            versionName: "1.0"
+    ]
+    dependencies = [
+            //multidex
+            "multidex"           : "com.android.support:multidex:1.0.1",
+
+            //androidx
+            "appcompat"          : "androidx.appcompat:appcompat:1.2.0",
+            "recyclerview"       : "androidx.recyclerview:recyclerview:1.2.0-alpha06",
+            "material"           : "com.google.android.material:material:1.2.1",
+            "constraintlayout"   : "androidx.constraintlayout:constraintlayout:2.0.4",
+            "glide"              : "com.github.bumptech.glide:glide:4.11.0",
+            "annotationProcessor": "com.github.bumptech.glide:compiler:4.11.0",
+
+            //EventBus
+            "eventbus"           : "org.greenrobot:eventbus:3.1.1",
+
+            //gson
+            "gson"               : "com.google.code.gson:gson:2.8.6",
+
+            // network
+            "retrofit2"          : "com.squareup.retrofit2:retrofit:2.8.1",
+            "retrofit2_converter": "com.squareup.retrofit2:converter-gson:2.8.1",
+            "okhttp3"            : "com.squareup.okhttp3:logging-interceptor:3.4.1",
+
+            //ARouter
+            "arouter-api"        : "com.alibaba:arouter-api:1.5.0",
+            "arouter-compiler"   : "com.alibaba:arouter-compiler:1.2.2",
+    ]
+}

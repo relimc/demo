@@ -11,5 +11,5 @@ ext {
     targetSdk = 28
     versionCode = 1
     versionName = "1.0"
-    isRelease = false
+    isRelease = true
 }

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 def ext = rootProject.ext
@@ -32,8 +33,15 @@ android {
     }
 }
 
-dependencies {
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
 
+dependencies {
+    api ext.appDpendencies.arouter_api
+    kapt ext.appDpendencies.arouter_compiler
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'

@@ -7,7 +7,7 @@ ext {
             versionCode: 1,
             versionName: "1.0"
     ]
-    dependencies = [
+    appDpendencies = [
             //multidex
             "multidex"           : "com.android.support:multidex:1.0.1",
 
@@ -31,7 +31,7 @@ ext {
             "okhttp3"            : "com.squareup.okhttp3:logging-interceptor:3.4.1",
 
             //ARouter
-            "arouter-api"        : "com.alibaba:arouter-api:1.5.0",
-            "arouter-compiler"   : "com.alibaba:arouter-compiler:1.2.2",
+            "arouter_api"        : "com.alibaba:arouter-api:1.5.2",
+            "arouter_compiler"   : "com.alibaba:arouter-compiler:1.5.2",
     ]
 }

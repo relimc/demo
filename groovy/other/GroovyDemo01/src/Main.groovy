@@ -1,25 +1,12 @@
-public class Person1 {
-  private String name;
-
-  public Person1(String name) {
-    this.name = name
-  }
-
-  public String getName() {
-    return name
-  }
-
-  public void setName(String name) {
-    this.name = name
-  }
+def caculate(Closure closure) {
+  def num1 = 10
+  def num2 = 15
+  closure(num1, num2)
 }
 
-class Person2 {
-  String name
-}
+caculate {
 
-def person = new Person2(name: "John")
-println person.name
+}
 
 
 

@@ -1,4 +1,5 @@
 apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-kapt'
 
 def ext = rootProject.ext
 
@@ -6,6 +7,12 @@ if (ext.isDebug.toBoolean()) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
+}
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
 }
 
 android {
@@ -51,8 +58,11 @@ android {
     }
 }
 
+
+
 dependencies {
 
+    kapt ext.appDpendencies.arouter_compiler
     implementation project(":common")
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

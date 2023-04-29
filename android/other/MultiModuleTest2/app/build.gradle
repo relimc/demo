@@ -1,27 +1,20 @@
 plugins {
-    id 'com.android.library'
+    id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-}
-
-def ext = rootProject.ext
-
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
 }
 
 android {
-    namespace 'com.example.common'
-    compileSdk ext.android.compileSdk
+    namespace 'com.example.multimoduletest2'
+    compileSdk 33
 
     defaultConfig {
-        minSdk ext.android.minSdk
-        targetSdk ext.android.targetSdk
+        applicationId "com.example.multimoduletest2"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -39,12 +32,8 @@ android {
     }
 }
 
-
-
 dependencies {
-    api ext.appDpendencies.multidex
-    api ext.appDpendencies.arouter_api
-    kapt ext.appDpendencies.arouter_compiler
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'

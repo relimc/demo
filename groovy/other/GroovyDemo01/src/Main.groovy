@@ -1,31 +1,15 @@
-public class Person1 {
-  private String name;
+class Person {
+    def age, gender
+    Person (age) {
+        this.age = age
+    }
 
-  public Person1(String name) {
-    this.name = name
-  }
-
-  public String getName() {
-    return name
-  }
-
-  public void setName(String name) {
-    this.name = name
-  }
+    Person (age, gender) {
+        this.age = age
+        this.gender = gender
+    }
 }
 
-class Person2 {
-  String name
-}
-
-def person = new Person2(name: "John")
-println person.name
-
-
-
-
-
-
-
-
-
+def student = new Person(age: 10, gender: '男')
+println student.age.toString()
+println student.gender.toString()

@@ -13,3 +13,4 @@ class Person {
 def student = new Person(age: 10, gender: '男')
 println student.age.toString()
 println student.gender.toString()
+

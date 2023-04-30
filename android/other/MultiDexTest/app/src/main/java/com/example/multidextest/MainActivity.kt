@@ -1,4 +1,4 @@
-package com.example.moduletest
+package com.example.multidextest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

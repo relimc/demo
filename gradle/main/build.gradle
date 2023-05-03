@@ -12,18 +12,21 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation('org.hibernate:hibernate-core:3.6.3.Final')
+    implementation('org.slf4j:slf4j-api:1.4.0')
 }
 
 test {
     useJUnitPlatform()
 }
 
-task copyTask(type: Copy) {
-    from("src/main/java/org/example/conf.xml")  // 复制单个文件
-    rename {
-        "new$it"  // 重命名，在名字前加个 new 前缀
+apply from: "config.gradle"
+
+task A {
+    doFirst {
+        println "${versionCode} - ${map.name} - ${list[0]}"
     }
-    into("dest")  // 目标目录
 }
 
 

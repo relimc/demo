@@ -1,18 +1,16 @@
-def caculate(Closure closure) {
-  def num1 = 10
-  def num2 = 15
-  closure(num1, num2)
+class Person {
+    def age, gender
+    Person (age) {
+        this.age = age
+    }
+
+    Person (age, gender) {
+        this.age = age
+        this.gender = gender
+    }
 }
 
-caculate {
-
-}
-
-
-
-
-
-
-
-
+def student = new Person(age: 10, gender: '男')
+println student.age.toString()
+println student.gender.toString()
 

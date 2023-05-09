@@ -1,12 +1,7 @@
 import jdk.swing.interop.SwingInterOpUtils
 import kotlinx.coroutines.*
 
-fun main() {
-    runBlocking {
-        val result = withContext(Dispatchers.Default) {
-            5 + 5
-        }
-        println(result)
-    }
-}
 
+
+val student1 = Pair("Jack", "man")
+println(student1.first)

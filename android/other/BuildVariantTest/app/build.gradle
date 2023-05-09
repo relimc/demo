@@ -3,6 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def buildTime() {
+    return new Date().format("yyyyMMdd")
+}
+
 android {
     namespace 'com.example.buildvarianttest'
     compileSdk 33
@@ -48,8 +52,39 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            buildConfigField 'String', 'env', '"https://www.google.com"'
+        }
+        debug {
+            buildConfigField 'String', 'env', '"https://www.baidu.com"'
         }
     }
+
+    // applicationVariants 中存放着所有的变体
+    // applicationVariants.all 用于遍历所有的变体
+    applicationVariants.all { variant ->
+        // variant 表示单个变体
+        // variant.outputs 表示该变体的所有输出
+        // variant.outputs.all 用于遍历变体的所有输出
+        variant.outputs.all { output ->
+            // 每一个 output 表示变体所有输出中的一个文件
+            // 这里通过 if 只取 apk 文件
+            println output.outputFile.name
+            if (output.outputFile != null || output.outputFile.name.endWith('.apk')) {
+                def info = ''
+                // 一个变体由 productFlavor 和 buildType 组成
+                // 一个变体可能包含多个 flavor，variant.productFlavors 存放着一个变体所有的 flavor
+                // variant.productFlavors.each 遍历一个变体中所有的 flavor
+                variant.productFlavors.each {
+                    println it
+                    println it.name
+                    info = info + it.name + "_"  // 将所有的 flavor 通过 _ 拼接起来
+                }
+                // 为outputFileName属性重新赋值，就自定义了对应apk的名字
+                output.outputFileName = "${project.name}_$info${variant.buildType.name}_${buildTime()}.apk"
+            }
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

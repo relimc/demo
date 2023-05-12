@@ -1,0 +1,4 @@
+(A)FileOutputStream(File name) 创建一个文件输出流，向指定的 File 对象输出数据。
+(B)FileOutputStream(FileDescriptor) 创建一个文件输出流，向指定的文件描述器输出数据。
+(C)FileOutputStream(String name) 创建一个文件输出流，向指定名称的文件输出数据。
+(D)FileOutputStream(String, boolean) 用指定系统的文件名，创建一个输出文件。

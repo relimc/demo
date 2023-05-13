@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
                 IMyAidlInterface iMyAidlInterface = IMyAidlInterface.Stub.asInterface(service);
                 try {
                     iMyAidlInterface.test();
+                    String s = iMyAidlInterface.test2("555");
+                    System.out.println(s);
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }

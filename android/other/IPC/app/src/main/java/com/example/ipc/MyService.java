@@ -22,5 +22,10 @@ public class MyService extends Service {
         public void test() throws RemoteException {
             System.out.println("我是 Binder 的 test 方法");
         }
+
+        @Override
+        public String test2(String name) throws RemoteException {
+            return name + "666";
+        }
     }
 }
